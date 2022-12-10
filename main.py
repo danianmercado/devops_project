@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 app.config['MONGODB_SETTINGS'] = {
     'db': 'test',
-    'host': '62.84.119.116',
+    'host': '178.154.220.113',
     'port': 27017,
     'username': 'devops_project',
     'password': 'devops_project',
