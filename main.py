@@ -2,6 +2,8 @@ import json
 from flask import Flask, request, jsonify
 from flask_mongoengine import MongoEngine
 
+# Project for DEVOPS 2022
+
 app = Flask(__name__)
 
 app.config['MONGODB_SETTINGS'] = {
