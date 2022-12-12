@@ -16,7 +16,7 @@ def test_create_record():
     with flask_app.test_client() as test_client:
         response = test_client.put('/', json={
             "name": "Bob",
-            "email": "Bob_email",
+            "email": "bob@example.com",
             "role": "Bob_role",
             "unique_facial_id": "Bob_unique_facial_id",
         })
@@ -29,7 +29,7 @@ def test_get_all_users():
     flask_app = app
     with flask_app.test_client() as test_client:
         response = test_client.post('/all_users', json={
-            "email": "Bob_email"
+            "email": "bob@example.com"
         })
         assert response.status_code == 200
         assert b'no access, bad role' in response.data
@@ -41,11 +41,13 @@ def test_update_record():
     with flask_app.test_client() as test_client:
         response = test_client.post('/', json={
             "name": "Bob",
-            "email": "Bob_email",
+            "email": "bob@example.com",
             "role": "admin",
             "unique_facial_id": "Bob_unique_facial_id",
         })
         assert response.status_code == 200
+    with flask_app.test_client() as test_client:
+        response = test_client.get('/?email=bob@example.com')
         assert response.get_json()["role"] == "admin"
 
 
@@ -54,7 +56,7 @@ def test_get_all_users_admin():
     flask_app = app
     with flask_app.test_client() as test_client:
         response = test_client.post('/all_users', json={
-            "email": "Bob_email"
+            "email": "bob@example.com"
         })
         assert response.status_code == 200
         assert len(response.get_json()) > 1
@@ -64,16 +66,7 @@ def test_delete_record():
     flask_app = app
     with flask_app.test_client() as test_client:
         response = test_client.delete('/', json={
-            "email": "Bob_email"
+            "email": "bob@example.com"
         })
         assert response.status_code == 200
         assert len(response.get_json()) >= 1
-
-
-
-test_empty_db()
-test_create_record()
-test_get_all_users()
-test_update_record()
-test_get_all_users_admin()
-test_delete_record()
